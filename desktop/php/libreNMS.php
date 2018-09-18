@@ -91,10 +91,16 @@
 						<form class="form-horizontal">
 							<fieldset>
 								<div class="form-group">
-									<label class="col-sm-3 control-label">{{Nom}}</label>
+									<label class="col-sm-3 control-label">{{Nom du serveur}}</label>
 									<div class="col-sm-3">
 										<input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
-										<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom}}"/>
+										<input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom du serveur}}"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{{IP du serveur}}</label>
+									<div class="col-sm-3">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="logicalId" placeholder="{{IP du serveur}}"/>
 									</div>
 								</div>
 								<div class="form-group">
