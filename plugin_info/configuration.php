@@ -6,13 +6,36 @@ if (!isConnect()) {
     die();
 }
 ?>
-	<form class="form-horizontal">
-		<fieldset>
-			<div class="form-group">
-				<label class="col-lg-4 control-label">{{Tokens LibreNMS :}}</label>
-				<div class="col-lg-4">
-					<input class="configKey form-control" data-l1key="Tokens" />
-				</div>
+<form class="form-horizontal">
+	<fieldset>
+		<div class="form-group">
+			<label class="col-lg-4 control-label">{{Tokens LibreNMS :}}</label>
+			<div class="col-lg-4">
+				<input class="configKey form-control" data-l1key="Tokens" />
 			</div>
-		</fieldset>
-	</form>
+		</div>
+	</fieldset>
+</form>
+<a class="btn btn-primary devices"><i class="fa fa-search"></i>{{Importer les device}}</a>
+<script>
+$('.devices').on('click',function(){
+	$.ajax({
+		async: false,
+		type: 'POST',
+		url: 'plugins/libreNMS/core/ajax/libreNMS.ajax.php',
+		data:{
+			action: 'getDevice'
+		},
+		dataType: 'json',
+		global: false,
+		error: function(request, status, error) {},
+		success: function(data) {
+			if (data.state != 'ok') {
+				$('#div_alert').showAlert({message: data.result, level: 'danger'});
+				return;
+			}
+			$('#div_alert').showAlert({message: data.result, level: 'success'});
+		}
+	});
+});
+</script>
