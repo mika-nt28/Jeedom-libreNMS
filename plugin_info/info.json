@@ -1,0 +1,14 @@
+{
+	"id" : "libreNMS",
+	"name" : "LibreNMS",
+	"description" : "Recuperer les informations de vos server SNMP",
+	"licence" : "AGPL",
+	"installation" : "",
+	"author" : "Michael Habout",
+	"require" : "3.2",
+	"category" : "monitoring",
+	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"],
+	"issue" : "https://github.com/mika-nt28/Jeedom-libreNMS/issues",
+ 	"changelog" : "https://github.com/mika-nt28/Jeedom-libreNMS/commits/master",
+ 	"documentation" : "http://mika-nt28.github.io/Jeedom-libreNMS/"
+}
