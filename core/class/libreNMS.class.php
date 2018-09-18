@@ -42,7 +42,21 @@ class libreNMS extends eqLogic {
 		}
 		return $url;
 	}	
-	
+	public function getDevice() {
+		$Url='https://librenms.org/api/v0/devices/';
+		$result=$this->Request($Url);
+		foreach($result['devices'] as $device){
+			$eqLogic = eqLogic::byLogicalId($device['id'],'libreNMS');
+			if (!is_object($eqLogic)) {
+				$eqLogic = new libreNMS();
+				$eqLogic->setLogicalId($device['id']);
+				$eqLogic->setIsEnable(1);
+				$eqLogic->setIsVisible(1);
+				$eqLogic->save();
+			}
+		}
+		
+	}
 	public function getARP() {
 		$Url='https://librenms.org/api/v0/resources/ip/arp/'.$this->getLogicalId();
 		$this->Request($Url);
