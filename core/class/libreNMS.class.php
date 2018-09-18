@@ -6,25 +6,47 @@ class libreNMS extends eqLogic {
 	public static $_widgetPossibility = array('custom' => true);
 
 	/*     * ***********************Methode static*************************** */
-
+	public static function cron() {	
+		foreach(eqLogic::byType('libreNMS') as $libreNMS){
+			$libreNMS->getARP();
+		}
+	}
 
 	/*     * *********************Methode d'instance************************* */
 
-	public function Request($Url,$Type,$Parameter){		
+	public function Request($Url,$Type='GET',$Parameter=''){		
 		$ch = curl_init();
-		if($Type == 'GET')
+		if($Type == 'GET' && $Parameter != '')
 			$Url = $Url . '?' . $this->ArrayToUrl($Parameter);
 		log::add('libreNMS','debug',$Url);
 		curl_setopt($ch, CURLOPT_URL, $Url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($ch, CURLOPT_HEADER, FALSE);
-		if($Type == 'POST')
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			'X-Auth-Token: '.config::byKey('Tokens','libreNMS')
+		));
+		if($Type == 'POST' && $Parameter != '')
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $Parameter);
 		$rsp = curl_exec($ch);
 		curl_close($ch);
 		log::add('libreNMS','debug',$rsp);
 		return json_decode($rsp,true);
+	}
+	public function ArrayToUrl($UrlArray) {
+		ksort($UrlArray);
+		$url='';
+		foreach($UrlArray as $Parameter => $Value){
+			if($url != '')
+				$url.='&';
+			$url.=$Parameter.'='.$Value;
+		}
+		return $url;
 	}	
+	
+	public function getARP() {
+		$Url='https://librenms.org/api/v0/resources/ip/arp/'.$this->getLogicalId();
+		$this->Request($Url);
+	}
 	public function postSave() {
 	}
 	public function CreateCron($Name,$Schedule) {
