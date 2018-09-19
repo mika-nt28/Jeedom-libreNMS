@@ -9,14 +9,14 @@ if (!isConnect()) {
 <form class="form-horizontal">
 	<fieldset>
 		<div class="form-group">
-			<label class="col-lg-4 control-label">{{IP du serveur LibreNMS :}}</label>
+			<label class="col-lg-4 control-label">{{Url du serveur LibreNMS :}}</label>
 			<div class="col-lg-4">
-				<input class="configKey form-control" data-l1key="IP" />
+				<input class="configKey form-control" data-l1key="Host" placeholder="{{Saisir l'url de votre serveur (avec le http:// ou https://)}}"/>
 			</div>>
 		<div class="form-group">
 			<label class="col-lg-4 control-label">{{Tokens du serveur LibreNMS :}}</label>
 			<div class="col-lg-4">
-				<input class="configKey form-control" data-l1key="Tokens" />
+				<input class="configKey form-control" data-l1key="Tokens" placeholder="{{Saisir le token de connexion de votre serveur}}"/>
 			</div>
 		</div>
 		<div class="form-group">
