@@ -9,14 +9,25 @@ if (!isConnect()) {
 <form class="form-horizontal">
 	<fieldset>
 		<div class="form-group">
-			<label class="col-lg-4 control-label">{{Tokens LibreNMS :}}</label>
+			<label class="col-lg-4 control-label">{{IP du serveur LibreNMS :}}</label>
+			<div class="col-lg-4">
+				<input class="configKey form-control" data-l1key="IP" />
+			</div>>
+		<div class="form-group">
+			<label class="col-lg-4 control-label">{{Tokens du serveur LibreNMS :}}</label>
 			<div class="col-lg-4">
 				<input class="configKey form-control" data-l1key="Tokens" />
 			</div>
 		</div>
+		<div class="form-group">
+			<label class="col-lg-4 control-label">{{Devices :}}</label>
+			<div class="col-lg-4">
+				
+<a class="btn btn-primary devices"><i class="fa fa-search"></i>{{Importer les device}}</a>
+			</div>
+		</div>
 	</fieldset>
 </form>
-<a class="btn btn-primary devices"><i class="fa fa-search"></i>{{Importer les device}}</a>
 <script>
 $('.devices').on('click',function(){
 	$.ajax({
