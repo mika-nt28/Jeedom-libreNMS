@@ -14,8 +14,9 @@ class libreNMS extends eqLogic {
 
 	/*     * *********************Methode d'instance************************* */
 
-	public function Request($Url,$Type='GET',$Parameter=''){		
+	public function Request($Complement,$Type='GET',$Parameter=''){		
 		$ch = curl_init();
+		$Url=config::byKey('Host','libreNMS')+$Complement;
 		if($Type == 'GET' && $Parameter != '')
 			$Url = $Url . '?' . $this->ArrayToUrl($Parameter);
 		log::add('libreNMS','debug',$Url);
@@ -43,13 +44,22 @@ class libreNMS extends eqLogic {
 		return $url;
 	}	
 	public function getDevice() {
-		$Url='https://librenms.org/api/v0/devices/';
-		$result=$this->Request($Url);
+		$result=$this->Request('/api/v0/devices/');
+		  "devices": [
+        {
 		foreach($result['devices'] as $device){
-			$eqLogic = eqLogic::byLogicalId($device['id'],'libreNMS');
+			$eqLogic = eqLogic::byLogicalId($device['ip'],'libreNMS');
 			if (!is_object($eqLogic)) {
 				$eqLogic = new libreNMS();
-				$eqLogic->setLogicalId($device['id']);
+				$eqLogic->setName($device['hostname']);
+				$eqLogic->setLogicalId($device['ip']);
+				$eqLogic->setComment($device['sysDescr']);
+				$eqLogic->setConfiguration('port',$device['port']);
+				$eqLogic->setConfiguration('transport',$device['transport']);
+				$eqLogic->setConfiguration('location',$device['location']);
+				$eqLogic->setConfiguration('type',$device['type']);
+				$eqLogic->setConfiguration('lat',$device['lat']);
+				$eqLogic->setConfiguration('lng',$device['lng']);
 				$eqLogic->setIsEnable(1);
 				$eqLogic->setIsVisible(1);
 				$eqLogic->save();
@@ -58,8 +68,7 @@ class libreNMS extends eqLogic {
 		
 	}
 	public function getARP() {
-		$Url='https://librenms.org/api/v0/resources/ip/arp/'.$this->getLogicalId();
-		$this->Request($Url);
+		$this->Request('/api/v0/resources/ip/arp/'.$this->getLogicalId());
 	}
 	public function postSave() {
 	}
