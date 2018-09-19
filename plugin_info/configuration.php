@@ -12,7 +12,8 @@ if (!isConnect()) {
 			<label class="col-lg-4 control-label">{{Url du serveur LibreNMS :}}</label>
 			<div class="col-lg-4">
 				<input class="configKey form-control" data-l1key="Host" placeholder="{{Saisir l'url de votre serveur (avec le http:// ou https://)}}"/>
-			</div>>
+			</div>
+		</div>
 		<div class="form-group">
 			<label class="col-lg-4 control-label">{{Tokens du serveur LibreNMS :}}</label>
 			<div class="col-lg-4">
@@ -22,8 +23,7 @@ if (!isConnect()) {
 		<div class="form-group">
 			<label class="col-lg-4 control-label">{{Devices :}}</label>
 			<div class="col-lg-4">
-				
-<a class="btn btn-primary devices"><i class="fa fa-search"></i>{{Importer les device}}</a>
+				<a class="btn btn-primary devices"><i class="fa fa-search"></i>{{Importer les device}}</a>
 			</div>
 		</div>
 	</fieldset>
