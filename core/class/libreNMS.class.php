@@ -45,8 +45,6 @@ class libreNMS extends eqLogic {
 	}	
 	public function getDevice() {
 		$result=$this->Request('/api/v0/devices/');
-		  "devices": [
-        {
 		foreach($result['devices'] as $device){
 			$eqLogic = eqLogic::byLogicalId($device['ip'],'libreNMS');
 			if (!is_object($eqLogic)) {
@@ -65,7 +63,6 @@ class libreNMS extends eqLogic {
 				$eqLogic->save();
 			}
 		}
-		
 	}
 	public function getARP() {
 		$this->Request('/api/v0/resources/ip/arp/'.$this->getLogicalId());
