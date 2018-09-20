@@ -16,7 +16,7 @@ class libreNMS extends eqLogic {
 
 	public function Request($Complement,$Type='GET',$Parameter=''){		
 		$ch = curl_init();
-		$Url=config::byKey('Host','libreNMS')+$Complement;
+		$Url=config::byKey('Host','libreNMS').$Complement;
 		if($Type == 'GET' && $Parameter != '')
 			$Url = $Url . '?' . $this->ArrayToUrl($Parameter);
 		log::add('libreNMS','debug',$Url);
