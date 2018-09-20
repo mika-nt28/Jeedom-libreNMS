@@ -55,6 +55,7 @@ class libreNMS extends eqLogic {
 				$eqLogic->setConfiguration('type',$device['type']);
 				$eqLogic->setConfiguration('lat',$device['lat']);
 				$eqLogic->setConfiguration('lng',$device['lng']);
+				$eqLogic->seteqType_name('libreNMS');
 				$eqLogic->setIsEnable(1);
 				$eqLogic->setIsVisible(1);
 				$eqLogic->save();
