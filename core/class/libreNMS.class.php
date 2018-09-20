@@ -11,14 +11,11 @@ class libreNMS extends eqLogic {
 			$libreNMS->getARP();
 		}
 	}
-
-	/*     * *********************Methode d'instance************************* */
-
-	public function Request($Complement,$Type='GET',$Parameter=''){		
+	public static function Request($Complement,$Type='GET',$Parameter=''){		
 		$ch = curl_init();
 		$Url=config::byKey('Host','libreNMS').$Complement;
 		if($Type == 'GET' && $Parameter != '')
-			$Url = $Url . '?' . $this->ArrayToUrl($Parameter);
+			$Url = $Url . '?' . self::ArrayToUrl($Parameter);
 		log::add('libreNMS','debug',$Url);
 		curl_setopt($ch, CURLOPT_URL, $Url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -33,7 +30,7 @@ class libreNMS extends eqLogic {
 		log::add('libreNMS','debug',$rsp);
 		return json_decode($rsp,true);
 	}
-	public function ArrayToUrl($UrlArray) {
+	public static function ArrayToUrl($UrlArray) {
 		ksort($UrlArray);
 		$url='';
 		foreach($UrlArray as $Parameter => $Value){
@@ -43,8 +40,8 @@ class libreNMS extends eqLogic {
 		}
 		return $url;
 	}	
-	public function getDevice() {
-		$result=$this->Request('/api/v0/devices/');
+	public static function getDevice() {
+		$result=self::Request('/api/v0/devices/');
 		foreach($result['devices'] as $device){
 			$eqLogic = eqLogic::byLogicalId($device['ip'],'libreNMS');
 			if (!is_object($eqLogic)) {
@@ -64,8 +61,10 @@ class libreNMS extends eqLogic {
 			}
 		}
 	}
+
+	/*     * *********************Methode d'instance************************* */
 	public function getARP() {
-		$this->Request('/api/v0/resources/ip/arp/'.$this->getLogicalId());
+		self::Request('/api/v0/resources/ip/arp/'.$this->getLogicalId());
 	}
 	public function postSave() {
 	}
