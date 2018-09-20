@@ -41,7 +41,7 @@ class libreNMS extends eqLogic {
 		return $url;
 	}	
 	public static function getDevice() {
-		$result=self::Request('/api/v0/devices/');
+		$result=self::Request('/api/v0/devices');
 		foreach($result['devices'] as $device){
 			$eqLogic = eqLogic::byLogicalId($device['ip'],'libreNMS');
 			if (!is_object($eqLogic)) {
