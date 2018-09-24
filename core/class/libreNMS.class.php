@@ -63,6 +63,7 @@ class libreNMS extends eqLogic {
 				$eqLogic->setConfiguration('last_ping_timetaken',$device['last_ping_timetaken']);
 				$eqLogic->setConfiguration('last_polled',$device['last_polled']);
 				$eqLogic->setConfiguration('last_polled_timetaken',$device['last_polled_timetaken']);
+				$eqLogic->seteqType_name('libreNMS');
 				$eqLogic->setIsEnable(1);
 				$eqLogic->setIsVisible(1);
 				$eqLogic->save();
