@@ -49,15 +49,20 @@ class libreNMS extends eqLogic {
 				$eqLogic->setName($device['hostname']);
 				$eqLogic->setLogicalId($device['ip']);
 				$eqLogic->setComment($device['sysDescr']);
-				$eqLogic->setConfiguration('port',$device['port']);
-				$eqLogic->setConfiguration('transport',$device['transport']);
 				$eqLogic->setConfiguration('location',$device['location']);
 				$eqLogic->setConfiguration('type',$device['type']);
-				$eqLogic->setConfiguration('lat',$device['lat']);
-				$eqLogic->setConfiguration('lng',$device['lng']);
+				$eqLogic->setConfiguration('snmpver',$device['snmpver']);
+				$eqLogic->setConfiguration('port',$device['port']);
+                		$eqLogic->setConfiguration('transport',$device['transport']);
+                		$eqLogic->setConfiguration('uptime',$device['uptime']);
+                		$eqLogic->setConfiguration('last_ping',$device['last_ping']);
+              			$eqLogic->setConfiguration('last_ping_timetaken',$device['last_ping_timetaken']);
+                		$eqLogic->setConfiguration('last_polled',$device['last_polled']);
+                		$eqLogic->setConfiguration('last_polled_timetaken',$device['last_polled_timetaken']);
 				$eqLogic->setIsEnable(1);
 				$eqLogic->setIsVisible(1);
 				$eqLogic->save();
+				log::add('libreNMS','debug','Le device: '.$device['hostname'].'est importé');
 			}
 		}
 	}
