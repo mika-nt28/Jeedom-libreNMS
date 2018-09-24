@@ -104,6 +104,32 @@
 									</div>
 								</div>
 								<div class="form-group">
+								    <label class="col-sm-3 control-label">{{Type}}</label>
+								    <div class="col-sm-3">
+								    <select id="sel_icon" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="type">
+									<option value="">{{Aucun}}</option>
+									<option value="server">{{Serveur}}</option>
+									<option value="network">{{Réseau}}</option>
+									<option value="wireless">{{Réseau sans fil}}</option>
+									<option value="firewall">{{Pare feu}}</option>
+									<option value="power">{{Alimentation}}</option>
+									<option value="environment">{{Environnemet}}</option>
+									<option value="loadbalancer">{{Equilibreur de charge}}</option>
+									<option value="storage">{{Disque}}</option>
+									<option value="printer">{{Imprimante}}</option>
+									<option value="appliance">{{Appliance}}</option>
+									<option value="collaboration">{{Collaboration}}</option>
+									<option value="workstation">{{Station de travail}}</option>
+								    </select>
+								    </div>
+								</div>
+                 						<div class="form-group">
+									<label class="col-sm-3 control-label">{{Lieu}}</label>
+									<div class="col-sm-3">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="location" placeholder="{{location}}"/>
+									</div>
+								</div> 
+								<div class="form-group">
 									<label class="col-sm-3 control-label" >{{Objet parent}}</label>
 									<div class="col-sm-3">
 										<select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
@@ -123,6 +149,30 @@
 										<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked/>{{Visible}}</label>
 									</div>
 								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{{Version SNMP}}</label>
+									<div class="col-sm-3">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="snmpver" placeholder="{{Version SNMP}}"/>
+									</div>
+								</div>     
+                               					<div class="form-group">
+									<label class="col-sm-3 control-label">{{port}}</label>
+									<div class="col-sm-3">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="port" placeholder="{{port}}"/>
+									</div>
+								</div>   
+                                				<div class="form-group">
+									<label class="col-sm-3 control-label">{{transport}}</label>
+									<div class="col-sm-3">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="transport" placeholder="{{transport}}"/>
+									</div>
+								</div>   
+                                				<div class="form-group">
+									<label class="col-sm-3 control-label">{{sysObjectID}}</label>
+									<div class="col-sm-3">
+										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="sysObjectID" placeholder="{{sysObjectID}}"/>
+									</div>
+								</div>   
 							</fieldset>
 						</form>
 					</div>
