@@ -57,12 +57,12 @@ class libreNMS extends eqLogic {
 				$eqLogic->setConfiguration('lng',$device['lng']);
 				$eqLogic->setConfiguration('snmpver',$device['snmpver']);
 				$eqLogic->setConfiguration('port',$device['port']);
-        $eqLogic->setConfiguration('transport',$device['transport']);
-        $eqLogic->setConfiguration('uptime',$device['uptime']);
-        $eqLogic->setConfiguration('last_ping',$device['last_ping']);
-        $eqLogic->setConfiguration('last_ping_timetaken',$device['last_ping_timetaken']);
-        $eqLogic->setConfiguration('last_polled',$device['last_polled']);
-        $eqLogic->setConfiguration('last_polled_timetaken',$device['last_polled_timetaken']);
+				$eqLogic->setConfiguration('transport',$device['transport']);
+				$eqLogic->setConfiguration('uptime',$device['uptime']);
+				$eqLogic->setConfiguration('last_ping',$device['last_ping']);
+				$eqLogic->setConfiguration('last_ping_timetaken',$device['last_ping_timetaken']);
+				$eqLogic->setConfiguration('last_polled',$device['last_polled']);
+				$eqLogic->setConfiguration('last_polled_timetaken',$device['last_polled_timetaken']);
 				$eqLogic->setIsEnable(1);
 				$eqLogic->setIsVisible(1);
 				$eqLogic->save();
