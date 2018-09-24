@@ -76,6 +76,7 @@ class libreNMS extends eqLogic {
 		self::Request('/api/v0/resources/ip/arp/'.$this->getLogicalId());
 	}
 	public function postSave() {
+		//$this->AddCommande('Nome de la commande','name',"info", 'numeric','');
 	}
 	public function CreateCron($Name,$Schedule) {
 		$cron =cron::byClassAndFunction('libreNMS', $Name, array('id' => $this->getId()));
@@ -93,18 +94,16 @@ class libreNMS extends eqLogic {
 		$Commande = $this->getCmd(null, $LogicalId);
 		if (!is_object($Commande)) {
 			$Commande = new libreNMSCmd();
+			$Commande->setEqLogic_id($this->getId());
 			$Commande->setLogicalId($LogicalId);
 			$Commande->setIsVisible(1);
-			$Commande->setTemplate('dashboard', 'line');
-			$Commande->setTemplate('mobile', 'line');
+			$Commande->setIsHistorized(1);
+			$Commande->setName($Name);
+			$Commande->setType($Type);
+			$Commande->setSubType($SousType);
+			$Commande->setUnite($Unite);
+			$Commande->save();
 		}
-		$Commande->setIsHistorized(1);
-		$Commande->setName($Name);
-		$Commande->setType($Type);
-		$Commande->setSubType($SousType);
-		$Commande->setUnite($Unite);
-		$Commande->setEqLogic_id($this->getId());
-		$Commande->save();
 		return $Commande;
 	}
 	/*     * **********************Getteur Setteur*************************** */
