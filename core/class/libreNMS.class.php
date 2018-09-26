@@ -2,14 +2,17 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class libreNMS extends eqLogic {
 	/*     * *************************Attributs****************************** */
-
+	public static $_TypesInfo = array('Système','ARP');
 	private $_collectDate = '';
 	public static $_widgetPossibility = array('custom' => true);
 
 	/*     * ***********************Methode static*************************** */
 	public static function cron() {	
 		foreach(eqLogic::byType('libreNMS') as $libreNMS){
-			$libreNMS->getARP();
+			if($this->getConfiguration('Système'))
+				$libreNMS->getSystem();
+			if($libreNMS->getConfiguration('ARP'))
+				$libreNMS->getARP();
 		}
 	}
 	public static function Request($Complement,$Type='GET',$Parameter=''){		
@@ -72,11 +75,39 @@ class libreNMS extends eqLogic {
 	}
 
 	/*     * *********************Methode d'instance************************* */
+	public function getSystem() {
+		$Result=self::Request('/api/v0/system');
+		if($Result["status"] == "ok"){
+			foreach($Result["system"] as $cmd => $value)
+				$this->checkAndUpdateCmd($cmd,$value);
+		}
+	}
 	public function getARP() {
-		self::Request('/api/v0/resources/ip/arp/'.$this->getLogicalId());
+		$Result=self::Request('/api/v0/resources/ip/arp/'.$this->getLogicalId());
+		if($Result["status"] == "ok"){
+			foreach($Result["arp"] as $cmd => $value)
+				$this->checkAndUpdateCmd($cmd,$value);
+		}
 	}
 	public function postSave() {
-		//$this->AddCommande('Nome de la commande','name',"info", 'numeric','');
+		if($this->getConfiguration('Système')){
+			$this->AddCommande('Version','local_ver',"info", 'string','');
+			$this->AddCommande('Sha','local_sha',"info", 'string','');
+			$this->AddCommande('Date','local_date',"info", 'string','');
+			$this->AddCommande('Branche','local_branch',"info", 'string','');
+			$this->AddCommande('Shema database','db_schema',"info", 'string','');
+			$this->AddCommande('PHP version','php_ver',"info", 'string','');
+			$this->AddCommande('MYSQL version','mysql_ver',"info", 'string','');
+			$this->AddCommande('RRD version','rrdtool_ver',"info", 'string','');
+			$this->AddCommande('SNMP version','netsnmp_ver',"info", 'string','');
+		}
+		if($this->getConfiguration('ARP')){
+			$this->AddCommande('Port','port_id',"info", 'string','');
+			$this->AddCommande('MAC','mac_address',"info", 'string','');
+			$this->AddCommande('IPv4','',"info", 'string','');
+			$this->AddCommande('Nom','context_name',"info", 'string','');
+		}
+		//$this->AddCommande('Nom de la commande','name',"info", 'numeric','');
 	}
 	public function CreateCron($Name,$Schedule) {
 		$cron =cron::byClassAndFunction('libreNMS', $Name, array('id' => $this->getId()));
