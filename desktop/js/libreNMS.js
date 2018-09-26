@@ -22,7 +22,26 @@ function addCmdToTable(_cmd) {
     $('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
     jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
 }
-
+$('.libreNMSAction[data-action=import]').on('click', function () {
+	$.ajax({
+		async: false,
+		type: 'POST',
+		url: 'plugins/libreNMS/core/ajax/libreNMS.ajax.php',
+		data:{
+			action: 'getDevice'
+		},
+		dataType: 'json',
+		global: false,
+		error: function(request, status, error) {},
+		success: function(data) {
+			if (data.state != 'ok') {
+				$('#div_alert').showAlert({message: data.result, level: 'danger'});
+				return;
+			}
+			location.reload();
+		}
+	});
+});
 $('#bt_import').on('click', function () {
   $('#md_modal').dialog({
 		title: "{{Import des différentes commandes du device}}",
