@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class libreNMS extends eqLogic {
 	/*     * *************************Attributs****************************** */
-	public static $_TypesInfo = array('Système','ARP');
+	public static $_TypesInfo = array('Système','ARP','Services');
 	private $_collectDate = '';
 	public static $_widgetPossibility = array('custom' => true);
 
@@ -13,6 +13,8 @@ class libreNMS extends eqLogic {
 				$libreNMS->getSystem();
 			if($libreNMS->getConfiguration('ARP'))
 				$libreNMS->getARP();
+			if($libreNMS->getConfiguration('Services'))
+				$libreNMS->getServices();
 		}
 	}
 	public static function Request($Complement,$Type='GET',$Parameter=''){		
@@ -97,6 +99,13 @@ class libreNMS extends eqLogic {
 				$this->checkAndUpdateCmd($cmd,$value);
 		}
 	}
+	public function getServices() {
+		$Result=self::Request('/api/v0/services/'.$this->getName());
+		if($Result["status"] == "ok"){
+			foreach($Result["services"] as $cmd => $value)
+				$this->checkAndUpdateCmd($cmd,$value);
+		}
+	}
 	public function postSave() {
 		if($this->getConfiguration('Système')){
 			$this->AddCommande('Version','local_ver',"info", 'string','');
@@ -112,8 +121,21 @@ class libreNMS extends eqLogic {
 		if($this->getConfiguration('ARP')){
 			$this->AddCommande('Port','port_id',"info", 'string','');
 			$this->AddCommande('MAC','mac_address',"info", 'string','');
-			$this->AddCommande('IPv4','',"info", 'string','');
+			$this->AddCommande('IPv4','ipv4_address',"info", 'string','');
 			$this->AddCommande('Nom','context_name',"info", 'string','');
+		}
+		if($this->getConfiguration('Services')){
+			$this->AddCommande('id','service_id',"info", 'string','');
+			$this->AddCommande('IP','service_ip',"info", 'string','');
+			$this->AddCommande('Type','service_type',"info", 'string','');
+			$this->AddCommande('Descendant','service_desc',"info", 'string','');
+			$this->AddCommande('Parametre','service_param',"info", 'string','');
+			$this->AddCommande('Ignore','service_ignore',"info", 'string','');
+			$this->AddCommande('Status','service_status',"info", 'string','');
+			$this->AddCommande('Change','service_changed',"info", 'string','');
+			$this->AddCommande('Message','service_message',"info", 'string','');
+			$this->AddCommande('Activation','service_disabled',"info", 'string','');
+			$this->AddCommande('DS','service_ds',"info", 'string','');
 		}
 		//$this->AddCommande('Nom de la commande','name',"info", 'numeric','');
 	}
