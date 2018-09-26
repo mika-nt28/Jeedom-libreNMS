@@ -173,6 +173,23 @@
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="sysObjectID" placeholder="{{sysObjectID}}"/>
 									</div>
 								</div>   
+								<div class="form-group">
+									<label class="col-sm-2 control-label" >
+										{{Type d'information}}
+										<sup>
+											<i class="fa fa-question-circle tooltips" title="{{Choisir le type d'information que vous souhaité remonter}}" style="font-size : 1em;color:grey;"></i>
+										</sup>
+									</label>
+									<div class="col-sm-8">
+										<?php
+											foreach (Volets::$_TypesInfo as $TypeInfo) {
+												echo '<label class="checkbox-inline">';
+												echo '<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="' . $TypeInfo . '" />' . $TypeInfo;
+												echo '</label>';
+											}
+										?>
+									</div>
+								</div>	
 							</fieldset>
 						</form>
 					</div>
