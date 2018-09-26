@@ -88,21 +88,21 @@ class libreNMS extends eqLogic {
 	public function getSystem() {
 		$Result=self::Request('/api/v0/system');
 		if($Result["status"] == "ok"){
-			foreach($Result["system"] as $cmd => $value)
+			foreach($Result["system"][0] as $cmd => $value)
 				$this->checkAndUpdateCmd($cmd,$value);
 		}
 	}
 	public function getARP() {
 		$Result=self::Request('/api/v0/resources/ip/arp/'.$this->getLogicalId());
 		if($Result["status"] == "ok"){
-			foreach($Result["arp"] as $cmd => $value)
+			foreach($Result["arp"][0] as $cmd => $value)
 				$this->checkAndUpdateCmd($cmd,$value);
 		}
 	}
 	public function getServices() {
 		$Result=self::Request('/api/v0/services/'.$this->getName());
 		if($Result["status"] == "ok"){
-			foreach($Result["services"] as $cmd => $value)
+			foreach($Result["services"][0] as $cmd => $value)
 				$this->checkAndUpdateCmd($cmd,$value);
 		}
 	}
