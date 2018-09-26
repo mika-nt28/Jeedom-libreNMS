@@ -2,15 +2,15 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class libreNMS extends eqLogic {
 	/*     * *************************Attributs****************************** */
-	public static $_TypesInfo = array('Système','ARP','Services');
+	public static $_TypesInfo = array('ARP','Services');
 	private $_collectDate = '';
 	public static $_widgetPossibility = array('custom' => true);
 
 	/*     * ***********************Methode static*************************** */
 	public static function cron() {	
 		foreach(eqLogic::byType('libreNMS') as $libreNMS){
-			if($libreNMS->getConfiguration('Système'))
-				$libreNMS->getSystem();
+			/*if($libreNMS->getConfiguration('Système'))
+				$libreNMS->getSystem();*/
 			if($libreNMS->getConfiguration('ARP'))
 				$libreNMS->getARP();
 			if($libreNMS->getConfiguration('Services'))
@@ -75,6 +75,13 @@ class libreNMS extends eqLogic {
 			}
 		}
 	}
+	public static function getSystem() {
+		return self::Request('/api/v0/system');
+		/*if($Result["status"] == "ok"){
+			foreach($Result["system"][0] as $cmd => $value)
+				$this->checkAndUpdateCmd($cmd,$value);
+		}*/
+	}
 	/*     * *********************Methode d'instance************************* */
   	public function getDeviceHealth() {
 		$Graph=array();
@@ -84,13 +91,6 @@ class libreNMS extends eqLogic {
 			$Graph[$graphs["desc"]]=self::Request('/api/v0/devices/'.$this->getName().'/health/'.$graphs["name"]);
 		} 
 		return $Graph;
-	}
-	public function getSystem() {
-		$Result=self::Request('/api/v0/system');
-		if($Result["status"] == "ok"){
-			foreach($Result["system"][0] as $cmd => $value)
-				$this->checkAndUpdateCmd($cmd,$value);
-		}
 	}
 	public function getARP() {
 		$Result=self::Request('/api/v0/resources/ip/arp/'.$this->getLogicalId());
@@ -107,7 +107,7 @@ class libreNMS extends eqLogic {
 		}
 	}
 	public function postSave() {
-		if($this->getConfiguration('Système')){
+		/*if($this->getConfiguration('Système')){
 			$this->AddCommande('Version','local_ver',"info", 'string','');
 			$this->AddCommande('Sha','local_sha',"info", 'string','');
 			$this->AddCommande('Date','local_date',"info", 'string','');
@@ -117,7 +117,7 @@ class libreNMS extends eqLogic {
 			$this->AddCommande('MYSQL version','mysql_ver',"info", 'string','');
 			$this->AddCommande('RRD version','rrdtool_ver',"info", 'string','');
 			$this->AddCommande('SNMP version','netsnmp_ver',"info", 'string','');
-		}
+		}*/
 		if($this->getConfiguration('ARP')){
 			$this->AddCommande('Port','port_id',"info", 'string','');
 			$this->AddCommande('MAC','mac_address',"info", 'string','');
