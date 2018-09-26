@@ -20,33 +20,5 @@ if (!isConnect()) {
 				<input class="configKey form-control" data-l1key="Tokens" placeholder="{{Saisir le token de connexion de votre serveur}}"/>
 			</div>
 		</div>
-		<div class="form-group">
-			<label class="col-lg-4 control-label">{{Devices :}}</label>
-			<div class="col-lg-4">
-				<a class="btn btn-primary devices"><i class="fa fa-search"></i>{{Importer les device}}</a>
-			</div>
-		</div>
 	</fieldset>
 </form>
-<script>
-$('.devices').on('click',function(){
-	$.ajax({
-		async: false,
-		type: 'POST',
-		url: 'plugins/libreNMS/core/ajax/libreNMS.ajax.php',
-		data:{
-			action: 'getDevice'
-		},
-		dataType: 'json',
-		global: false,
-		error: function(request, status, error) {},
-		success: function(data) {
-			if (data.state != 'ok') {
-				$('#div_alert').showAlert({message: data.result, level: 'danger'});
-				return;
-			}
-			$('#div_alert').showAlert({message: data.result, level: 'success'});
-		}
-	});
-});
-</script>

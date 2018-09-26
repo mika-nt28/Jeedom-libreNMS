@@ -22,12 +22,39 @@ function addCmdToTable(_cmd) {
     $('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
     jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
 }
-
+$('.libreNMSAction[data-action=import]').on('click', function () {
+	$.ajax({
+		async: false,
+		type: 'POST',
+		url: 'plugins/libreNMS/core/ajax/libreNMS.ajax.php',
+		data:{
+			action: 'getDevice'
+		},
+		dataType: 'json',
+		global: false,
+		error: function(request, status, error) {},
+		success: function(data) {
+			if (data.state != 'ok') {
+				$('#div_alert').showAlert({message: data.result, level: 'danger'});
+				return;
+			}
+			location.reload();
+		}
+	});
+});
 $('#bt_import').on('click', function () {
-  $('#md_modal').dialog({
+	$('#md_modal').dialog({
 		title: "{{Import des différentes commandes du device}}",
 		resizable: true,
 		height: 700,
 		width: 850});
-  $('#md_modal').load('index.php?v=d&modal=importCmd&plugin=libreNMS').dialog('open');
+	$('#md_modal').load('index.php?v=d&modal=importCmd&plugin=libreNMS').dialog('open');
+});
+$('#bt_healthlibreNMS').on('click', function () {
+	$('#md_modal').dialog({
+		title: "{{Santé du plugin}}",
+		resizable: true,
+		height: 700,
+		width: 850});
+	$('#md_modal').load('index.php?v=d&modal=health&plugin=libreNMS').dialog('open');
 });

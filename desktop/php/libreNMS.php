@@ -31,6 +31,12 @@
 				</center>
 				<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#406E88"><center>Ajouter</center></span>
 			</div>
+			<div class="cursor libreNMSAction" data-action="import" style="background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;" >
+				<center>
+					<i class="fa fa-plus-circle" style="font-size : 5em;color:#406E88;"></i>
+				</center>
+				<span style="font-size : 1.1em;position:relative; top : 15px;word-break: break-all;white-space: pre-wrap;word-wrap: break-word;color:#406E88"><center>Importer les equipements</center></span>
+			</div>
 			<div class="cursor eqLogicAction" data-action="gotoPluginConf" style="background-color : #ffffff; height : 120px;margin-bottom : 10px;padding : 5px;border-radius: 2px;width : 160px;margin-left : 10px;">
 				<center>
 					<i class="fa fa-wrench" style="font-size : 5em;color:#767676;"></i>
@@ -180,7 +186,7 @@
 								    </div>
 								</div>   
 								<div class="form-group">
-									<label class="col-sm-2 control-label" >
+									<label class="col-sm-3 control-label" >
 										{{Type d'information}}
 										<sup>
 											<i class="fa fa-question-circle tooltips" title="{{Choisir le type d'information que vous souhaité remonter}}" style="font-size : 1em;color:grey;"></i>
