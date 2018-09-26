@@ -107,7 +107,7 @@ class libreNMS extends eqLogic {
 		}
 	}
 	public function postSave() {
-		if($this->getConfiguration('Système')){
+		/*if($this->getConfiguration('Système')){
 			$this->AddCommande('Version','local_ver',"info", 'string','');
 			$this->AddCommande('Sha','local_sha',"info", 'string','');
 			$this->AddCommande('Date','local_date',"info", 'string','');
@@ -117,7 +117,7 @@ class libreNMS extends eqLogic {
 			$this->AddCommande('MYSQL version','mysql_ver',"info", 'string','');
 			$this->AddCommande('RRD version','rrdtool_ver',"info", 'string','');
 			$this->AddCommande('SNMP version','netsnmp_ver',"info", 'string','');
-		}
+		}*/
 		if($this->getConfiguration('ARP')){
 			$this->AddCommande('Port','port_id',"info", 'string','');
 			$this->AddCommande('MAC','mac_address',"info", 'string','');
