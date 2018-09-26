@@ -73,17 +73,16 @@ class libreNMS extends eqLogic {
 			}
 		}
 	}
-  	public static function getDeviceHealth($deviceName) {
-		$result=self::Request('/api/v0/devices/'.$deviceName.'/health');
-		foreach($result['graphs'] as $graphs){
-			
-
-				log::add('libreNMS','debug','commande: '.$graphs['name'].'est trouvée');
-          
-		
-		}
-	}
 	/*     * *********************Methode d'instance************************* */
+  	public function getDeviceHealth() {
+		$Graph=array();
+		$result=self::Request('/api/v0/devices/'.$this->getName().'/health');
+		foreach($result['graphs'] as $graphs){
+			log::add('libreNMS','debug','commande: '.$graphs['name'].'est trouvée');
+			$Graph[$graphs["desc"]]=self::Request('/api/v0/devices/'.$this->getName().'/health/'.$graphs["name"]);
+		} 
+		return $Graph;
+	}
 	public function getSystem() {
 		$Result=self::Request('/api/v0/system');
 		if($Result["status"] == "ok"){
