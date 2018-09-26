@@ -188,7 +188,7 @@
 									</label>
 									<div class="col-sm-8">
 										<?php
-											foreach (Volets::$_TypesInfo as $TypeInfo) {
+											foreach (libreNMS::$_TypesInfo as $TypeInfo) {
 												echo '<label class="checkbox-inline">';
 												echo '<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="' . $TypeInfo . '" />' . $TypeInfo;
 												echo '</label>';
