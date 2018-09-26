@@ -180,7 +180,7 @@
 								    </div>
 								</div>   
 								<div class="form-group">
-									<label class="col-sm-2 control-label" >
+									<label class="col-sm-3 control-label" >
 										{{Type d'information}}
 										<sup>
 											<i class="fa fa-question-circle tooltips" title="{{Choisir le type d'information que vous souhaité remonter}}" style="font-size : 1em;color:grey;"></i>
