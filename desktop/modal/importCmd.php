@@ -22,7 +22,8 @@ $('.deviceHealth').on('click',function(){
 		type: 'POST',
 		url: 'plugins/libreNMS/core/ajax/libreNMS.ajax.php',
 		data:{
-			action: 'getDeviceHealth'
+			action: 'getDeviceHealth',
+			id: $('.eqLogicAttr[data-l1key=id]').val()
 		},
 		dataType: 'json',
 		global: false,

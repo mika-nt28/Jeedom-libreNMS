@@ -10,8 +10,9 @@ try {
 		ajax::success("L'import de device a ete executé");
 	}
 	if (init('action') == 'getDeviceHealth') {
-		libreNMS::getDeviceHealth(init('name'));
-		ajax::success("L'import du device a ete executé".init('name'));
+		$eqLogic = eqLogic::byId(init('id'));
+		if(is_object($eqLogic))
+			ajax::success($eqLogic->getDeviceHealth());
 	}
 	throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */

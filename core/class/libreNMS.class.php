@@ -2,17 +2,19 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class libreNMS extends eqLogic {
 	/*     * *************************Attributs****************************** */
-	public static $_TypesInfo = array('Système','ARP');
+	public static $_TypesInfo = array('Système','ARP','Services');
 	private $_collectDate = '';
 	public static $_widgetPossibility = array('custom' => true);
 
 	/*     * ***********************Methode static*************************** */
 	public static function cron() {	
 		foreach(eqLogic::byType('libreNMS') as $libreNMS){
-			if($this->getConfiguration('Système'))
+			if($libreNMS->getConfiguration('Système'))
 				$libreNMS->getSystem();
 			if($libreNMS->getConfiguration('ARP'))
 				$libreNMS->getARP();
+			if($libreNMS->getConfiguration('Services'))
+				$libreNMS->getServices();
 		}
 	}
 	public static function Request($Complement,$Type='GET',$Parameter=''){		
@@ -73,28 +75,34 @@ class libreNMS extends eqLogic {
 			}
 		}
 	}
-  	public static function getDeviceHealth($deviceName) {
-		$result=self::Request('/api/v0/devices/'.$deviceName.'/health');
-		foreach($result['graphs'] as $graphs){
-			
-
-				log::add('libreNMS','debug','commande: '.$graphs['name'].'est trouvée');
-          
-		
-		}
-	}
 	/*     * *********************Methode d'instance************************* */
+  	public function getDeviceHealth() {
+		$Graph=array();
+		$result=self::Request('/api/v0/devices/'.$this->getName().'/health');
+		foreach($result['graphs'] as $graphs){
+			log::add('libreNMS','debug','commande: '.$graphs['name'].'est trouvée');
+			$Graph[$graphs["desc"]]=self::Request('/api/v0/devices/'.$this->getName().'/health/'.$graphs["name"]);
+		} 
+		return $Graph;
+	}
 	public function getSystem() {
 		$Result=self::Request('/api/v0/system');
 		if($Result["status"] == "ok"){
-			foreach($Result["system"] as $cmd => $value)
+			foreach($Result["system"][0] as $cmd => $value)
 				$this->checkAndUpdateCmd($cmd,$value);
 		}
 	}
 	public function getARP() {
 		$Result=self::Request('/api/v0/resources/ip/arp/'.$this->getLogicalId());
 		if($Result["status"] == "ok"){
-			foreach($Result["arp"] as $cmd => $value)
+			foreach($Result["arp"][0] as $cmd => $value)
+				$this->checkAndUpdateCmd($cmd,$value);
+		}
+	}
+	public function getServices() {
+		$Result=self::Request('/api/v0/services/'.$this->getName());
+		if($Result["status"] == "ok"){
+			foreach($Result["services"][0] as $cmd => $value)
 				$this->checkAndUpdateCmd($cmd,$value);
 		}
 	}
@@ -113,8 +121,21 @@ class libreNMS extends eqLogic {
 		if($this->getConfiguration('ARP')){
 			$this->AddCommande('Port','port_id',"info", 'string','');
 			$this->AddCommande('MAC','mac_address',"info", 'string','');
-			$this->AddCommande('IPv4','',"info", 'string','');
+			$this->AddCommande('IPv4','ipv4_address',"info", 'string','');
 			$this->AddCommande('Nom','context_name',"info", 'string','');
+		}
+		if($this->getConfiguration('Services')){
+			$this->AddCommande('id','service_id',"info", 'string','');
+			$this->AddCommande('IP','service_ip',"info", 'string','');
+			$this->AddCommande('Type','service_type',"info", 'string','');
+			$this->AddCommande('Descendant','service_desc',"info", 'string','');
+			$this->AddCommande('Parametre','service_param',"info", 'string','');
+			$this->AddCommande('Ignore','service_ignore',"info", 'string','');
+			$this->AddCommande('Status','service_status',"info", 'string','');
+			$this->AddCommande('Change','service_changed',"info", 'string','');
+			$this->AddCommande('Message','service_message',"info", 'string','');
+			$this->AddCommande('Activation','service_disabled',"info", 'string','');
+			$this->AddCommande('DS','service_ds',"info", 'string','');
 		}
 		//$this->AddCommande('Nom de la commande','name',"info", 'numeric','');
 	}
