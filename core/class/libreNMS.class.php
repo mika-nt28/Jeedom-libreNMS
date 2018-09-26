@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class libreNMS extends eqLogic {
 	/*     * *************************Attributs****************************** */
-	public static $_TypesInfo = array('Système','ARP','Services');
+	public static $_TypesInfo = array('ARP','Services');
 	private $_collectDate = '';
 	public static $_widgetPossibility = array('custom' => true);
 
@@ -75,6 +75,13 @@ class libreNMS extends eqLogic {
 			}
 		}
 	}
+	public static function getSystem() {
+		return self::Request('/api/v0/system');
+		/*if($Result["status"] == "ok"){
+			foreach($Result["system"][0] as $cmd => $value)
+				$this->checkAndUpdateCmd($cmd,$value);
+		}*/
+	}
 	/*     * *********************Methode d'instance************************* */
   	public function getDeviceHealth() {
 		$Graph=array();
@@ -84,13 +91,6 @@ class libreNMS extends eqLogic {
 			$Graph[$graphs["desc"]]=self::Request('/api/v0/devices/'.$this->getName().'/health/'.$graphs["name"]);
 		} 
 		return $Graph;
-	}
-	public function getSystem() {
-		$Result=self::Request('/api/v0/system');
-		if($Result["status"] == "ok"){
-			foreach($Result["system"][0] as $cmd => $value)
-				$this->checkAndUpdateCmd($cmd,$value);
-		}
 	}
 	public function getARP() {
 		$Result=self::Request('/api/v0/resources/ip/arp/'.$this->getLogicalId());
