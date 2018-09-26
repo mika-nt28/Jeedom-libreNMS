@@ -22,3 +22,12 @@ function addCmdToTable(_cmd) {
     $('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
     jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
 }
+
+$('#bt_import').on('click', function () {
+  $('#md_modal').dialog({
+		title: "{{Import des différentes commandes du device}}",
+		resizable: true,
+		height: 700,
+		width: 850});
+  $('#md_modal').load('index.php?v=d&modal=importCmd&plugin=libreNMS').dialog('open');
+});
