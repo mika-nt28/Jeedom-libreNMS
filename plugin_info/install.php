@@ -39,6 +39,6 @@ function libreNMS_update(){
 	}
 	log::add('libreNMS','debug','Fin du script de mise a jours');
 }
-function Volets_remove(){
+function libreNMS_remove(){
 }
 ?>
