@@ -9,8 +9,8 @@ class libreNMS extends eqLogic {
 	/*     * ***********************Methode static*************************** */
 	public static function cron() {	
 		foreach(eqLogic::byType('libreNMS') as $libreNMS){
-			if($libreNMS->getConfiguration('Système'))
-				$libreNMS->getSystem();
+			/*if($libreNMS->getConfiguration('Système'))
+				$libreNMS->getSystem();*/
 			if($libreNMS->getConfiguration('ARP'))
 				$libreNMS->getARP();
 			if($libreNMS->getConfiguration('Services'))
