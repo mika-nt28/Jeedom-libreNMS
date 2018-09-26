@@ -43,10 +43,18 @@ $('.libreNMSAction[data-action=import]').on('click', function () {
 	});
 });
 $('#bt_import').on('click', function () {
-  $('#md_modal').dialog({
+	$('#md_modal').dialog({
 		title: "{{Import des différentes commandes du device}}",
 		resizable: true,
 		height: 700,
 		width: 850});
-  $('#md_modal').load('index.php?v=d&modal=importCmd&plugin=libreNMS').dialog('open');
+	$('#md_modal').load('index.php?v=d&modal=importCmd&plugin=libreNMS').dialog('open');
+});
+$('#bt_healthlibreNMS').on('click', function () {
+	$('#md_modal').dialog({
+		title: "{{Santé du plugin}}",
+		resizable: true,
+		height: 700,
+		width: 850});
+	$('#md_modal').load('index.php?v=d&modal=health&plugin=libreNMS').dialog('open');
 });
