@@ -172,6 +172,12 @@
 									<div class="col-sm-3">
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="sysObjectID" placeholder="{{sysObjectID}}"/>
 									</div>
+								</div>  
+								<div class="form-group">
+								    <label class="col-sm-3 control-label">{{Import}}</label>
+								    <div class="col-sm-3">
+								      <a class="btn btn-default" id="bt_import"><i class="fa fa-cogs"></i> Importer les commandes</a>
+								    </div>
 								</div>   
 								<div class="form-group">
 									<label class="col-sm-2 control-label" >
