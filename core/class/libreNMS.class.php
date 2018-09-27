@@ -120,7 +120,7 @@ class libreNMS extends eqLogic {
 			$this->AddCommande('Port','port_id',"info", 'string','','ARP');
 			$this->AddCommande('MAC','mac_address',"info", 'string','','ARP');
 			$this->AddCommande('IPv4','ipv4_address',"info", 'string','','ARP');
-			$this->AddCommande('Nom','context_name',"info", 'string','','ARP');
+			$this->AddCommande('Nom de contexte','context_name',"info", 'string','','ARP');
 		}
 		if($this->getConfiguration('Services')){
 			$this->AddCommande('id','service_id',"info", 'string','','Services');
@@ -138,7 +138,7 @@ class libreNMS extends eqLogic {
 		if($this->getConfiguration('LAN')){
 			$this->AddCommande('VLAN','vlan_vlan',"info", 'string','','LAN');
 			$this->AddCommande('Domaine','vlan_domain',"info", 'string','','LAN');
-			$this->AddCommande('Nom','vlan_name',"info", 'string','','LAN');
+			$this->AddCommande('Nom du lan','vlan_name',"info", 'string','','LAN');
 			$this->AddCommande('Type','vlan_type',"info", 'string','','LAN');
 			$this->AddCommande('MTU','vlan_mtu',"info", 'string','','LAN');
 		}
@@ -166,10 +166,10 @@ class libreNMS extends eqLogic {
 			$Commande->setLogicalId($LogicalId);
 			$Commande->setIsVisible(1);
 			$Commande->setIsHistorized(1);
-			$Commande->setName($Name);
 			$Commande->setType($Type);
 			$Commande->setSubType($SousType);
 		}
+		$Commande->setName($Name);
 		$Commande->setUnite($Unite);
 		$Commande->setConfiguration('Categorie',$Categorie);
 		$Commande->save();
