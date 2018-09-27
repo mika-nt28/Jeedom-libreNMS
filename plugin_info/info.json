@@ -1,7 +1,7 @@
 {
 	"id" : "libreNMS",
 	"name" : "LibreNMS",
-	"description" : "Recuperer les informations de vos server SNMP",
+	"description" : "LibreNMS est une AutoDiscovery PHP/MySQL/SNMP réseau de surveillance qui comprend la prise en charge d’une large gamme de matériel réseau et les systèmes d’exploitation, y compris Cisco, Linux, FreeBSD, Juniper, Brocade, Foundry, HP et beaucoup plus.",
 	"licence" : "AGPL",
 	"installation" : "",
 	"author" : "Michael Habout",
@@ -9,6 +9,6 @@
 	"category" : "monitoring",
 	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"],
 	"issue" : "https://github.com/mika-nt28/Jeedom-libreNMS/issues",
- 	"changelog" : "https://github.com/mika-nt28/Jeedom-libreNMS/commits/master",
- 	"documentation" : "http://mika-nt28.github.io/Jeedom-libreNMS/"
+ 	"changelog" : "https://github.com/mika-nt28/Jeedom-libreNMS/commits/stable",
+ 	"documentation" : "https://mika-nt28.github.io/Jeedom-libreNMS"
 }
