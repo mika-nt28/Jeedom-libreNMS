@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class libreNMS extends eqLogic {
 	/*     * *************************Attributs****************************** */
-	public static $_TypesInfo = array('ARP','Services');
+	public static $_TypesInfo = array('ARP','Services','LAN');
 	private $_collectDate = '';
 	public static $_widgetPossibility = array('custom' => true);
 
@@ -15,6 +15,8 @@ class libreNMS extends eqLogic {
 				$libreNMS->getARP();
 			if($libreNMS->getConfiguration('Services'))
 				$libreNMS->getServices();
+			if($libreNMS->getConfiguration('LAN'))
+				$libreNMS->getLAN();
 		}
 	}
 	public static function Request($Complement,$Type='GET',$Parameter=''){		
@@ -100,6 +102,13 @@ class libreNMS extends eqLogic {
 		}
 	}
 	public function getServices() {
+		$Result=self::Request('/api/v0/devices/'.$this->getName().'/vlans');
+		if($Result["status"] == "ok"){
+			foreach($Result["services"][0] as $cmd => $value)
+				$this->checkAndUpdateCmd($cmd,$value);
+		}
+	}
+	public function getLAN() {
 		$Result=self::Request('/api/v0/services/'.$this->getName());
 		if($Result["status"] == "ok"){
 			foreach($Result["services"][0] as $cmd => $value)
@@ -107,36 +116,34 @@ class libreNMS extends eqLogic {
 		}
 	}
 	public function postSave() {
-		/*if($this->getConfiguration('Système')){
-			$this->AddCommande('Version','local_ver',"info", 'string','');
-			$this->AddCommande('Sha','local_sha',"info", 'string','');
-			$this->AddCommande('Date','local_date',"info", 'string','');
-			$this->AddCommande('Branche','local_branch',"info", 'string','');
-			$this->AddCommande('Shema database','db_schema',"info", 'string','');
-			$this->AddCommande('PHP version','php_ver',"info", 'string','');
-			$this->AddCommande('MYSQL version','mysql_ver',"info", 'string','');
-			$this->AddCommande('RRD version','rrdtool_ver',"info", 'string','');
-			$this->AddCommande('SNMP version','netsnmp_ver',"info", 'string','');
-		}*/
 		if($this->getConfiguration('ARP')){
-			$this->AddCommande('Port','port_id',"info", 'string','');
-			$this->AddCommande('MAC','mac_address',"info", 'string','');
-			$this->AddCommande('IPv4','ipv4_address',"info", 'string','');
-			$this->AddCommande('Nom','context_name',"info", 'string','');
+			$this->AddCommande('Port','port_id',"info", 'string','','ARP');
+			$this->AddCommande('MAC','mac_address',"info", 'string','','ARP');
+			$this->AddCommande('IPv4','ipv4_address',"info", 'string','','ARP');
+			$this->AddCommande('Nom','context_name',"info", 'string','','ARP');
 		}
 		if($this->getConfiguration('Services')){
-			$this->AddCommande('id','service_id',"info", 'string','');
-			$this->AddCommande('IP','service_ip',"info", 'string','');
-			$this->AddCommande('Type','service_type',"info", 'string','');
-			$this->AddCommande('Descendant','service_desc',"info", 'string','');
-			$this->AddCommande('Parametre','service_param',"info", 'string','');
-			$this->AddCommande('Ignore','service_ignore',"info", 'string','');
-			$this->AddCommande('Status','service_status',"info", 'string','');
-			$this->AddCommande('Change','service_changed',"info", 'string','');
-			$this->AddCommande('Message','service_message',"info", 'string','');
-			$this->AddCommande('Activation','service_disabled',"info", 'string','');
-			$this->AddCommande('DS','service_ds',"info", 'string','');
+			$this->AddCommande('id','service_id',"info", 'string','','Services');
+			$this->AddCommande('IP','service_ip',"info", 'string','','Services');
+			$this->AddCommande('Type','service_type',"info", 'string','','Services');
+			$this->AddCommande('Descendant','service_desc',"info", 'string','','Services');
+			$this->AddCommande('Parametre','service_param',"info", 'string','','Services');
+			$this->AddCommande('Ignore','service_ignore',"info", 'string','','Services');
+			$this->AddCommande('Status','service_status',"info", 'string','','Services');
+			$this->AddCommande('Change','service_changed',"info", 'string','','Services');
+			$this->AddCommande('Message','service_message',"info", 'string','','Services');
+			$this->AddCommande('Activation','service_disabled',"info", 'string','','Services');
+			$this->AddCommande('DS','service_ds',"info", 'string',''),'Services';
 		}
+		if($this->getConfiguration('LAN')){
+			$this->AddCommande('VLAN','vlan_vlan',"info", 'string','','LAN');
+			$this->AddCommande('Domaine','vlan_domain',"info", 'string','','LAN');
+			$this->AddCommande('Nom','vlan_name',"info", 'string','','LAN');
+			$this->AddCommande('Type','vlan_type',"info", 'string','','LAN');
+			$this->AddCommande('MTU','vlan_mtu',"info", 'string','','LAN');
+		}
+		
+
 		//$this->AddCommande('Nom de la commande','name',"info", 'numeric','');
 	}
 	public function CreateCron($Name,$Schedule) {
@@ -151,7 +158,7 @@ class libreNMS extends eqLogic {
 		$cron->setSchedule($Schedule);
 		$cron->save();
 	}
-	public function AddCommande($Name,$LogicalId,$Type="info", $SousType='numeric',$Unite='') {
+	public function AddCommande($Name,$LogicalId,$Type="info", $SousType='numeric',$Unite='',$Categorie='') {
 		$Commande = $this->getCmd(null, $LogicalId);
 		if (!is_object($Commande)) {
 			$Commande = new libreNMSCmd();
@@ -162,9 +169,10 @@ class libreNMS extends eqLogic {
 			$Commande->setName($Name);
 			$Commande->setType($Type);
 			$Commande->setSubType($SousType);
-			$Commande->setUnite($Unite);
-			$Commande->save();
 		}
+		$Commande->setUnite($Unite);
+		$Commande->setConfiguration('Categorie',$Categorie);
+		$Commande->save();
 		return $Commande;
 	}
 	/*     * **********************Getteur Setteur*************************** */
