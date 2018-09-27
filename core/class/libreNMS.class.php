@@ -102,14 +102,14 @@ class libreNMS extends eqLogic {
 		}
 	}
 	public function getServices() {
-		$Result=self::Request('/api/v0/devices/'.$this->getName());
+		$Result=self::Request('/api/v0/services/'.$this->getName());
 		if($Result["status"] == "ok"){
 			foreach($Result["services"][0] as $cmd => $value)
 				$this->checkAndUpdateCmd($cmd,$value);
 		}
 	}
 	public function getLAN() {
-		$Result=self::Request('/api/v0/services/'.$this->getName().'/vlans');
+		$Result=self::Request('/api/v0/devices/'.$this->getName().'/vlans');
 		if($Result["status"] == "ok"){
 			foreach($Result["services"][0] as $cmd => $value)
 				$this->checkAndUpdateCmd($cmd,$value);
