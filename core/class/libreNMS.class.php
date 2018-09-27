@@ -133,7 +133,7 @@ class libreNMS extends eqLogic {
 			$this->AddCommande('Change','service_changed',"info", 'string','','Services');
 			$this->AddCommande('Message','service_message',"info", 'string','','Services');
 			$this->AddCommande('Activation','service_disabled',"info", 'string','','Services');
-			$this->AddCommande('DS','service_ds',"info", 'string',''),'Services';
+			$this->AddCommande('DS','service_ds',"info", 'string','','Services');
 		}
 		if($this->getConfiguration('LAN')){
 			$this->AddCommande('VLAN','vlan_vlan',"info", 'string','','LAN');
