@@ -20,7 +20,7 @@ if (!isConnect('admin')) {
 }
 $eqLogics = libreNMS::byType('libreNMS');
 
-$Result=self::Request('/api/v0/system');
+$Result=libreNMS::Request('/api/v0/system');
 foreach($Result["system"][0] as $cmd => $value)
 	echo $cmd.' : '.$value;
 ?>
