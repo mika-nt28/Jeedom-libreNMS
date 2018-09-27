@@ -10,7 +10,7 @@ try {
 		ajax::success("L'import de device a ete executé");
 	}
 	if (init('action') == 'getSystem') {
-		ajax::success(libreNMS::getSystem(););
+		ajax::success(libreNMS::getSystem());
 	}
 	if (init('action') == 'getDeviceHealth') {
 		$eqLogic = eqLogic::byId(init('id'));
