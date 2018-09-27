@@ -50,7 +50,7 @@ class libreNMS extends eqLogic {
 	}	
 	public static function getDevice() {
 		$result=self::Request('/api/v0/devices');
-		foreach($result['devices'] as $device){
+		foreach($result['devices'][0] as $device){
 			$eqLogic = eqLogic::byLogicalId($device['ip'],'libreNMS');
 			if (!is_object($eqLogic) && $device['disabled'] == '0') {
 				$eqLogic = new libreNMS();
