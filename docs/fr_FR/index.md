@@ -16,6 +16,15 @@ Une fois installer, il est necessaire de configurer les acces au server
 
 Récupération du token
 ---------------------
+Pour recupérer votre token, connectez vous sur l'interface de votre serveur LMS puis ici
+
+![introduction01](../images/TokenAccess.jpg)
+
+Il vous suffit de cliquer sur "Create API access token" et de donner une description a ce token
+
+![introduction01](../images/TockenCreate.jpg)
+
+N'oubliez pas de reporter ce token dans la configuration du plugin
 
 Vos equipements
 ===============

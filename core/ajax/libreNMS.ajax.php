@@ -9,9 +9,6 @@ try {
 		libreNMS::getDevice();
 		ajax::success("L'import de device a ete executé");
 	}
-	if (init('action') == 'getSystem') {
-		ajax::success(libreNMS::getSystem(););
-	}
 	if (init('action') == 'getDeviceHealth') {
 		$eqLogic = eqLogic::byId(init('id'));
 		if(is_object($eqLogic))
