@@ -139,7 +139,7 @@ class libreNMS extends eqLogic {
 			$this->AddCommande('VLAN','vlan_vlan',"info", 'string','','LAN');
 			$this->AddCommande('Domaine','vlan_domain',"info", 'string','','LAN');
 			$this->AddCommande('Nom du lan','vlan_name',"info", 'string','','LAN');
-			$this->AddCommande('Type','vlan_type',"info", 'string','','LAN');
+			$this->AddCommande('Type de lan','vlan_type',"info", 'string','','LAN');
 			$this->AddCommande('MTU','vlan_mtu',"info", 'string','','LAN');
 		}
 		
