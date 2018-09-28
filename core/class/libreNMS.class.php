@@ -117,30 +117,30 @@ class libreNMS extends eqLogic {
 	}
 	public function postSave() {
 		if($this->getConfiguration('ARP')){
-			$this->AddCommande('Port','port_id',"info", 'string','','ARP');
-			$this->AddCommande('MAC','mac_address',"info", 'string','','ARP');
-			$this->AddCommande('IPv4','ipv4_address',"info", 'string','','ARP');
-			$this->AddCommande('Nom de contexte','context_name',"info", 'string','','ARP');
+			$this->AddCommande('ARP>Port','port_id',"info", 'string','','ARP');
+			$this->AddCommande('ARP>MAC','mac_address',"info", 'string','','ARP');
+			$this->AddCommande('ARP>IP','ipv4_address',"info", 'string','','ARP');
+			$this->AddCommande('ARP>Nom de contexte','context_name',"info", 'string','','ARP');
 		}
 		if($this->getConfiguration('Services')){
-			$this->AddCommande('id','service_id',"info", 'string','','Services');
-			$this->AddCommande('IP','service_ip',"info", 'string','','Services');
-			$this->AddCommande('Type','service_type',"info", 'string','','Services');
-			$this->AddCommande('Descendant','service_desc',"info", 'string','','Services');
-			$this->AddCommande('Parametre','service_param',"info", 'string','','Services');
-			$this->AddCommande('Ignore','service_ignore',"info", 'string','','Services');
-			$this->AddCommande('Status','service_status',"info", 'string','','Services');
-			$this->AddCommande('Change','service_changed',"info", 'string','','Services');
-			$this->AddCommande('Message','service_message',"info", 'string','','Services');
-			$this->AddCommande('Activation','service_disabled',"info", 'string','','Services');
-			$this->AddCommande('DS','service_ds',"info", 'string','','Services');
+			$this->AddCommande('Services>id','service_id',"info", 'string','','Services');
+			$this->AddCommande('Services>IP','service_ip',"info", 'string','','Services');
+			$this->AddCommande('Services>Type','service_type',"info", 'string','','Services');
+			$this->AddCommande('Services>Descendant','service_desc',"info", 'string','','Services');
+			$this->AddCommande('Services>Parametre','service_param',"info", 'string','','Services');
+			$this->AddCommande('Services>Ignore','service_ignore',"info", 'string','','Services');
+			$this->AddCommande('Services>Status','service_status',"info", 'string','','Services');
+			$this->AddCommande('Services>Change','service_changed',"info", 'string','','Services');
+			$this->AddCommande('Services>Message','service_message',"info", 'string','','Services');
+			$this->AddCommande('Services>Activation','service_disabled',"info", 'string','','Services');
+			$this->AddCommande('Services>DS','service_ds',"info", 'string','','Services');
 		}
 		if($this->getConfiguration('LAN')){
-			$this->AddCommande('VLAN','vlan_vlan',"info", 'string','','LAN');
-			$this->AddCommande('Domaine','vlan_domain',"info", 'string','','LAN');
-			$this->AddCommande('Nom du lan','vlan_name',"info", 'string','','LAN');
-			$this->AddCommande('Type','vlan_type',"info", 'string','','LAN');
-			$this->AddCommande('MTU','vlan_mtu',"info", 'string','','LAN');
+			$this->AddCommande('LAN>VLAN','vlan_vlan',"info", 'string','','LAN');
+			$this->AddCommande('LAN>Domaine','vlan_domain',"info", 'string','','LAN');
+			$this->AddCommande('LAN>Nom','vlan_name',"info", 'string','','LAN');
+			$this->AddCommande('LAN>Type','vlan_type',"info", 'string','','LAN');
+			$this->AddCommande('LAN>MTU','vlan_mtu',"info", 'string','','LAN');
 		}
 		
 
