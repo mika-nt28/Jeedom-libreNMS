@@ -57,19 +57,32 @@ class libreNMS extends eqLogic {
 				$eqLogic->setName($device['hostname']);
 				$eqLogic->setEqType_name('libreNMS');
 				$eqLogic->setLogicalId($device['ip']);
-				$eqLogic->setComment($device['sysDescr']);
-				$eqLogic->setConfiguration('location',$device['location']);
-				$eqLogic->setConfiguration('type',$device['type']);
-				$eqLogic->setConfiguration('lat',$device['lat']);
-				$eqLogic->setConfiguration('lng',$device['lng']);
-				$eqLogic->setConfiguration('snmpver',$device['snmpver']);
-				$eqLogic->setConfiguration('port',$device['port']);
-				$eqLogic->setConfiguration('transport',$device['transport']);
-				$eqLogic->setConfiguration('uptime',$device['uptime']);
-				$eqLogic->setConfiguration('last_ping',$device['last_ping']);
-				$eqLogic->setConfiguration('last_ping_timetaken',$device['last_ping_timetaken']);
-				$eqLogic->setConfiguration('last_polled',$device['last_polled']);
-				$eqLogic->setConfiguration('last_polled_timetaken',$device['last_polled_timetaken']);
+				if(isset($device['sysDescr']))
+					$eqLogic->setComment($device['sysDescr']);
+				if(isset($device['location']))
+					$eqLogic->setConfiguration('location',$device['location']);
+				if(isset($device['type']))
+					$eqLogic->setConfiguration('type',$device['type']);
+				if(isset($device['lat']))
+					$eqLogic->setConfiguration('lat',$device['lat']);
+				if(isset($device['lng']))
+					$eqLogic->setConfiguration('lng',$device['lng']);
+				if(isset($device['snmpver']))
+					$eqLogic->setConfiguration('snmpver',$device['snmpver']);
+				if(isset($device['port']))
+					$eqLogic->setConfiguration('port',$device['port']);
+				if(isset($device['transport']))
+					$eqLogic->setConfiguration('transport',$device['transport']);
+				if(isset($device['uptime']))
+					$eqLogic->setConfiguration('uptime',$device['uptime']);
+				if(isset($device['last_ping']))
+					$eqLogic->setConfiguration('last_ping',$device['last_ping']);
+				if(isset($device['last_ping_timetaken']))
+					$eqLogic->setConfiguration('last_ping_timetaken',$device['last_ping_timetaken']);
+				if(isset($device['last_polled']))
+					$eqLogic->setConfiguration('last_polled',$device['last_polled']);
+				if(isset($device['last_polled_timetaken']))
+					$eqLogic->setConfiguration('last_polled_timetaken',$device['last_polled_timetaken']);
 				$eqLogic->setIsEnable(1);
 				$eqLogic->setIsVisible(1);
 				$eqLogic->save();
