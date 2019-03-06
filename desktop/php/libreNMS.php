@@ -55,7 +55,7 @@
 		<div class="eqLogicThumbnailContainer">
 			<?php
 			if (count($eqLogics) == 0) {
-				echo "<br/><br/><br/><center><span style='color:#767676;font-size:1.2em;font-weight: bold;'>{{Vous n'avez pas encore de module KNX, cliquez sur Ajouter pour commencer}}</span></center>";
+				echo "<br/><br/><br/><center><span style='color:#767676;font-size:1.2em;font-weight: bold;'>{{Vous n'avez pas encore de client LibreNMS de configurer, cliquez sur Ajouter pour commencer}}</span></center>";
 			} else {
 				foreach ($eqLogics as $eqLogic) {
 					$opacity = ($eqLogic->getIsEnable()) ? '' : jeedom::getConfiguration('eqLogic:style:noactive');
