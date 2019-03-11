@@ -57,10 +57,12 @@ class libreNMS extends eqLogic {
 				$eqLogic = new libreNMS();
 				$eqLogic->setName($device['hostname']);
 				$eqLogic->setEqType_name('libreNMS');
-				if(isset($device['ip']))
-					$eqLogic->setLogicalId($device['ip']);
+				if(isset($device['id']))
+					$eqLogic->setLogicalId($device['id']);
 				if(isset($device['sysDescr']))
 					$eqLogic->setComment($device['sysDescr']);
+				if(isset($device['ip']))
+					$eqLogic->setConfiguration('IP',$device['ip']);
 				if(isset($device['location']))
 					$eqLogic->setConfiguration('location',$device['location']);
 				if(isset($device['type']))
@@ -110,7 +112,7 @@ class libreNMS extends eqLogic {
 		return $Graph;
 	}
 	public function getARP() {
-		$Result=self::Request('/api/v0/resources/ip/arp/'.$this->getLogicalId());
+		$Result=self::Request('/api/v0/resources/ip/arp/'.$this->getConfiguration('IP'));
 		if($Result["status"] == "ok"){
 			foreach($Result["arp"][0] as $cmd => $value)
 				$this->checkAndUpdateCmd($cmd,$value);
