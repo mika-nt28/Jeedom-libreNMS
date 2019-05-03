@@ -50,7 +50,7 @@ $('#bt_import').on('click', function () {
 		width: 850});
 	$('#md_modal').load('index.php?v=d&modal=importCmd&plugin=libreNMS').dialog('open');
 });
-$('#bt_healthlibreNMS').on('click', function () {
+$('.eqLogicAction[data-action=healthlibreNMS]').on('click', function () {
 	$('#md_modal').dialog({
 		title: "{{Santé du plugin}}",
 		resizable: true,
