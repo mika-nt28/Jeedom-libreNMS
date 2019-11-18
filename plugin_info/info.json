@@ -8,7 +8,5 @@
 	"require" : "3.2",
 	"category" : "monitoring",
 	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"],
-	"issue" : "https://github.com/mika-nt28/Jeedom-libreNMS/issues",
- 	"changelog" : "https://github.com/mika-nt28/Jeedom-libreNMS/commits/stable",
  	"documentation" : "https://mika-nt28.github.io/Jeedom-libreNMS"
 }
