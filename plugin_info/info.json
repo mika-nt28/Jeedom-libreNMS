@@ -7,7 +7,7 @@
 	"author" : "Michael Habout",
 	"require" : "3.2",
 	"category" : "monitoring",
-	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"],
- 	"documentation" : "https://mika-nt28.github.io/Jeedom-libreNMS",
-	"changelog" : "https://mika-nt28.github.io/Jeedom-libreNMS/"
+	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile","v4"],
+ 	"documentation" : "https://mika-nt28.github.io/Documentations/libreNMS",
+	"changelog" : "https://mika-nt28.github.io/Documentations/libreNMS/changelog"
 }
