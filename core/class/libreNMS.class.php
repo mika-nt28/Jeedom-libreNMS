@@ -2,21 +2,23 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class libreNMS extends eqLogic {
 	/*     * *************************Attributs****************************** */
-	public static $_TypesInfo = array('ARP','Services','LAN');
+	public static $_TypesInfo = array('Système','ARP','Services','LAN','Health');
 	private $_collectDate = '';
 	public static $_widgetPossibility = array('custom' => true);
 
 	/*     * ***********************Methode static*************************** */
 	public static function cron() {	
 		foreach(eqLogic::byType('libreNMS') as $libreNMS){
-			/*if($libreNMS->getConfiguration('Système'))
-				$libreNMS->getSystem();*/
+			if($libreNMS->getConfiguration('Système'))
+				$libreNMS->getSystem();
 			if($libreNMS->getConfiguration('ARP'))
 				$libreNMS->getARP();
 			if($libreNMS->getConfiguration('Services'))
 				$libreNMS->getServices();
 			if($libreNMS->getConfiguration('LAN'))
 				$libreNMS->getLAN();
+			if($libreNMS->getConfiguration('Health'))
+				$libreNMS->getDeviceHealth();
 		}
 	}
 	public static function Request($Complement,$Type='GET',$Parameter=''){		
@@ -51,17 +53,21 @@ class libreNMS extends eqLogic {
 	public static function getDevice() {
 		$result=self::Request('/api/v0/devices');
 		foreach($result['devices'] as $device){
-			$eqLogic = eqLogic::byLogicalId($device['device_id'],'libreNMS');
+			if(isset($device['ip']) && $device['ip'] != ''):
+				$host=$device['ip'];
+			elseif(isset($device['hostname'])):
+				$host=$device['hostname'];
+			endif;
+			$eqLogic = eqLogic::byLogicalId($host,'libreNMS');
 			if (!is_object($eqLogic) && $device['disabled'] == '0') {
 				$eqLogic = new libreNMS();
 				$eqLogic->setName($device['hostname']);
 				$eqLogic->setEqType_name('libreNMS');
-				if(isset($device['id']))
-					$eqLogic->setLogicalId($device['id']);
+				$eqLogic->setLogicalId($host);
 				if(isset($device['sysDescr']))
 					$eqLogic->setComment($device['sysDescr']);
-				if(isset($device['ip']))
-					$eqLogic->setConfiguration('IP',$device['ip']);
+				if(isset($host))
+					$eqLogic->setConfiguration('IP',$host);
 				if(isset($device['location']))
 					$eqLogic->setConfiguration('location',$device['location']);
 				if(isset($device['type']))
@@ -76,6 +82,8 @@ class libreNMS extends eqLogic {
 					$eqLogic->setConfiguration('port',$device['port']);
 				if(isset($device['transport']))
 					$eqLogic->setConfiguration('transport',$device['transport']);
+				if(isset($device['sysObjectID']))
+					$eqLogic->setConfiguration('sysObjectID',$device['sysObjectID']);
 				if(isset($device['uptime']))
 					$eqLogic->setConfiguration('uptime',$device['uptime']);
 				if(isset($device['last_ping']))
@@ -89,39 +97,148 @@ class libreNMS extends eqLogic {
 				$eqLogic->setIsEnable(1);
 				$eqLogic->setIsVisible(1);
 				$eqLogic->save();
-				log::add('libreNMS','debug','Le device: '.$device['hostname'].'est importé');
-			}
+				log::add('libreNMS','debug','Le device : '.$host.' est importé');
+			} else log::add('libreNMS','debug','Le device : '.$host.' est déjà présent');
+
 		}
 	}
 	public static function getSystem() {
 		return self::Request('/api/v0/system');
-		/*if($Result["status"] == "ok"){
+		if($Result["status"] == "ok"){
 			foreach($Result["system"][0] as $cmd => $value)
 				$this->checkAndUpdateCmd($cmd,$value);
-		}*/
+		}
 	}
 	/*     * *********************Methode d'instance************************* */
   	public function getDeviceHealth() {
+		$Configuration=array('Categorie'=>'Health');
 		$Graph=array();
 		$result=self::Request('/api/v0/devices/'.$this->getName().'/health');
+		if($result["status"] == "ok")
 		foreach($result['graphs'] as $graphs){
-			log::add('libreNMS','debug','commande: '.$graphs['name'].'est trouvée');
-			$Graph[$graphs["desc"]]=self::Request('/api/v0/devices/'.$this->getName().'/health/'.$graphs["name"]);
-		} 
+			log::add('libreNMS','debug','commande: '.$graphs['name'].' est trouvée');
+			$namegraph=self::Request('/api/v0/devices/'.$this->getName().'/health/'.$graphs["name"]);
+			if($namegraph["status"] == "ok")
+				foreach ($namegraph['graphs'] as $graph ) {
+					$sensorId=$graph['sensor_id'];
+					$desc=$graph['desc'];
+					$toto=self::Request('/api/v0/devices/'.$this->getName().'/health/'.$graphs["name"].'/'.$sensorId);
+					if($toto["status"] == "ok")
+						foreach ($toto['graphs'] as $statusgraph ) {
+							switch ($statusgraph['sensor_class']) {
+									case "airflow":
+										$SousType='numeric';
+										$Unite='cfm';
+										break;
+									case "ber":
+										$SousType='numeric';
+										$Unite='ratio';
+										break;
+									case "charge":
+									case "humidity":
+									case "load":
+									case "loss":
+										$SousType='numeric';
+										$Unite='%';
+										break;
+									case "chromatic_dispersion":
+										$SousType='numeric';
+										$Unite='ps/nm';
+										break;
+									case "cooling":
+									case "power":
+										$SousType='numeric';
+										$Unite='W';
+										break;
+									case "count":
+									case "state":
+										$SousType='numeric';
+										$Unite='#';
+										break;
+									case "current":
+										$SousType='numeric';
+										$Unite='A';
+										break;
+									case "dbm":
+									case "signal":
+										$SousType='numeric';
+										$Unite='dBm';
+										break;
+									case "delay":
+										$SousType='numeric';
+										$Unite='s';
+										break;
+									case "eer":
+										$SousType='numeric';
+										$Unite='eer';
+										break;
+									case "fanspeed":
+										$SousType='numeric';
+										$Unite='tr/min';
+										break;
+									case "frequency":
+										$SousType='numeric';
+										$Unite='Hz';
+										break;
+									case "power_consumed":
+										$SousType='numeric';
+										$Unite='kWh';
+										break;
+									case "pressure":
+										$SousType='numeric';
+										$Unite='kPa';
+										break;
+									case "quality_factor":
+										$SousType='numeric';
+										$Unite='dB';
+										break;
+									case "runtime":
+										$SousType='numeric';
+										$Unite='Min';
+										break;
+									case "snr":
+										$SousType='numeric';
+										$Unite='SNR';
+										break;
+									case "temperature":
+										$SousType='numeric';
+										$Unite='°C';
+										break;
+									case "voltage":
+										$SousType='numeric';
+										$Unite='V';
+										break;
+									case "waterflow":
+										$SousType='numeric';
+										$Unite='I/m';
+										break;
+									default:
+										$SousType='string';
+										$Unite='';
+                            			}
+						$this->AddCommande($statusgraph['sensor_class'].'>'.$graph['desc'],$statusgraph['sensor_class'].'_'.$graph['desc'],"info", $SousType,$Unite,$Configuration);
+                          			$this->checkAndUpdateCmd($statusgraph['sensor_class'].'_'.$graph['desc'],$statusgraph['sensor_current']);
+					}
+				}
+		}
 		return $Graph;
 	}
 	public function getARP() {
-		$Result=self::Request('/api/v0/resources/ip/arp/'.$this->getConfiguration('IP'));
+		$Result=self::Request('/api/v0/resources/ip/arp/'.$this->getName());
+			log::add('libreNMS','debug','commande-ARP /api/v0/resources/ip/arp/'.$this->getName());
+
 		if($Result["status"] == "ok"){
-			foreach($Result["arp"][0] as $cmd => $value)
+			foreach($Result["arp"][0] as $cmd => $value) {
 				$this->checkAndUpdateCmd($cmd,$value);
+            }
 		}
 	}
 	public function getServices() {
 		$Result=self::Request('/api/v0/services/'.$this->getName());
 		if($Result["status"] == "ok"){
 			foreach($Result["services"][0] as $cmd => $value)
-				$this->checkAndUpdateCmd($cmd,$value);
+			log::add('libreNMS','debug','commande: getServices' . $cmd . ' value : $value' . $value );
+			$this->checkAndUpdateCmd($cmd,$value);
 		}
 	}
 	public function getLAN() {
@@ -133,9 +250,9 @@ class libreNMS extends eqLogic {
 				$Configuration['Type'] = $service["vlan_type"];
 				$Configuration['MTU'] = $service["vlan_mtu"];
 				$this->AddCommande($service["vlan_name"],$service["vlan_vlan"],"info", 'string','',$Configuration);
-				//foreach($service as $cmd => $value){
-					//$this->checkAndUpdateCmd($cmd,$value);
-				//}
+				foreach($service as $cmd => $value){
+					$this->checkAndUpdateCmd($cmd,$value);
+				}
 			}
 		}
 	}
