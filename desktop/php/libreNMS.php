@@ -39,7 +39,9 @@
 			foreach ($eqLogics as $eqLogic) {
 				$opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
 				echo '<div class="eqLogicDisplayCard cursor '.$opacity.'" data-eqLogic_id="' . $eqLogic->getId() . '">';
-				echo '<img src="' . $plugin->getPathImgIcon() . '"/>';
+				if ($eqLogic->getConfiguration('type') != '') {
+					echo '<img src="plugins/libreNMS/core/config/devices/'.$eqLogic->getConfiguration('type').'.png">';
+				} else echo '<img src="' . $plugin->getPathImgIcon() . '"/>';
 				echo '<br>';
 				echo '<span class="name">' . $eqLogic->getHumanName(true, true) . '</span>';
 				echo '</div>';
@@ -140,7 +142,7 @@
 							<option value="wireless">{{Réseau sans fil}}</option>
 							<option value="firewall">{{Pare feu}}</option>
 							<option value="power">{{Alimentation}}</option>
-							<option value="environment">{{Environnemet}}</option>
+							<option value="environment">{{Environnement}}</option>
 							<option value="loadbalancer">{{Equilibreur de charge}}</option>
 							<option value="storage">{{Disque}}</option>
 							<option value="printer">{{Imprimante}}</option>
@@ -213,6 +215,8 @@
 						<tr>
 							<th>{{Nom}}</th>
 							<th>{{Options}}</th>
+							<th>{{Type}}</th>
+							<th>{{Unité}}</th>
 							<th>{{Action}}</th>
 						</tr>
 					</thead>
