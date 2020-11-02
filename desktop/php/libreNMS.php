@@ -32,7 +32,7 @@
     				<span>{{Santé}}</span>
   			</div>
   		</div>
-  		<legend><i class="fas fa-table"></i> {{Mes templates}}</legend>
+  		<legend><i class="fas fa-table"></i> {{Mes appareils}}</legend>
 	   	<input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />
 		<div class="eqLogicThumbnailContainer">
     		<?php
@@ -78,7 +78,7 @@
 			</li>
     			<li role="presentation" class="active">
 				<a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab">
-				<i class="fa fa-tachometer"></i> 
+				<i class="fas fa-tachometer-alt"></i> 
 					{{Equipement}}
 				</a>
 			</li>
