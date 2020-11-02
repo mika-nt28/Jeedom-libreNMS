@@ -225,9 +225,7 @@ class libreNMS extends eqLogic {
 	}
 	public function getARP() {
 		$Result=self::Request('/api/v0/resources/ip/arp/'.$this->getName());
-			log::add('libreNMS','debug','commande-ARP /api/v0/resources/ip/arp/'.$this->getName());
-
-		if($Result["status"] == "ok"){
+		if(isset($Result) AND isset($Result["arp"][0]) AND !empty($Result) AND $Result["status"] == "ok"){
 			foreach($Result["arp"][0] as $cmd => $value) {
 				$this->checkAndUpdateCmd($cmd,$value);
             }
@@ -235,23 +233,24 @@ class libreNMS extends eqLogic {
 	}
 	public function getServices() {
 		$Result=self::Request('/api/v0/services/'.$this->getName());
-		if($Result["status"] == "ok"){
+		if(isset($Result) AND isset($Result["services"][0]) AND !empty($Result) AND $Result["status"] == "ok"){
 			foreach($Result["services"][0] as $cmd => $value)
-			log::add('libreNMS','debug','commande: getServices' . $cmd . ' value : $value' . $value );
-			$this->checkAndUpdateCmd($cmd,$value);
+				$this->checkAndUpdateCmd($cmd,$value);
 		}
 	}
 	public function getLAN() {
 		$Result=self::Request('/api/v0/devices/'.$this->getName().'/vlans');
-		if($Result["status"] == "ok"){
-			foreach($Result["services"] as $service){
-				$Configuration['Categorie'] = 'LAN';
-				$Configuration['Domain'] = $service["vlan_domain"];
-				$Configuration['Type'] = $service["vlan_type"];
-				$Configuration['MTU'] = $service["vlan_mtu"];
-				$this->AddCommande($service["vlan_name"],$service["vlan_vlan"],"info", 'string','',$Configuration);
-				foreach($service as $cmd => $value){
-					$this->checkAndUpdateCmd($cmd,$value);
+		if(isset($Result) AND !empty($Result) AND $Result["status"] == "ok"){
+			if(isset($Result["services"])) {
+				foreach($Result['services'] as $service => $value){
+					$Configuration['Categorie'] = 'LAN';
+					$Configuration['Domain'] = $service["vlan_domain"];
+					$Configuration['Type'] = $service["vlan_type"];
+					$Configuration['MTU'] = $service["vlan_mtu"];
+					$this->AddCommande($service["vlan_name"],$service["vlan_vlan"],"info", 'string','',$Configuration);
+					foreach($service as $cmd => $value){
+						$this->checkAndUpdateCmd($cmd,$value);
+					}
 				}
 			}
 		}
